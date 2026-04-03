@@ -6,7 +6,9 @@ cmds = [
   "composer install --no-dev --optimize-autoloader",
   "touch database/database.sqlite",
   "cp .env.example .env",
-  "php artisan key:generate"
+  "php artisan key:generate",
+  "chmod -R 775 storage bootstrap/cache",
+  "chown -R www-data:www-data storage bootstrap/cache"
 ]
 
 [start]
