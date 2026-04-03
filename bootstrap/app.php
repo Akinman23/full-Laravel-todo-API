@@ -4,7 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
-return Application::configure(basePath: dirname(__DIR__))
+$app = Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         api: __DIR__.'/../routes/api.php',
@@ -17,3 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
+
+// Point all writable paths to /tmp which is always writable on Railway
+$app->useStoragePath(env('APP_STORAGE', '/tmp/storage'));
+$app->bootstrapPath(env('APP_BOOTSTRAP_CACHE', '/tmp/bootstrap/cache'));
+
+return $app;
