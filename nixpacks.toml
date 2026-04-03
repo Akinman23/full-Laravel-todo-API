@@ -7,9 +7,11 @@ cmds = [
   "touch database/database.sqlite",
   "cp .env.example .env",
   "php artisan key:generate",
-  "chmod -R 775 storage bootstrap/cache",
-  "chown -R www-data:www-data storage bootstrap/cache"
+  "chmod -R 777 storage",
+  "chmod -R 777 bootstrap/cache",
+  "mkdir -p bootstrap/cache",
+  "php artisan package:discover --ansi"
 ]
 
 [start]
-cmd = "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "chmod -R 777 storage bootstrap/cache && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
