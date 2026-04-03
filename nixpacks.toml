@@ -6,8 +6,14 @@ cmds = [
   "composer install --no-dev --optimize-autoloader",
   "touch database/database.sqlite",
   "cp .env.example .env",
-  "php artisan key:generate"
+  "php artisan key:generate",
+  "mkdir -p bootstrap/cache",
+  "chmod -R 777 bootstrap/cache storage",
+  "php artisan package:discover --ansi",
+  "php artisan config:cache",
+  "php artisan route:cache",
+  "php artisan view:cache"
 ]
 
 [start]
-cmd = "mkdir -p /tmp/storage/logs /tmp/storage/framework/cache/data /tmp/storage/framework/sessions /tmp/storage/framework/views /tmp/bootstrap/cache && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "chmod -R 777 bootstrap/cache storage && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
