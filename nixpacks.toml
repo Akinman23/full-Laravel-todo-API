@@ -3,11 +3,14 @@ nixPkgs = ["php82", "php82Extensions.pdo", "php82Extensions.pdo_sqlite", "php82E
 
 [phases.build]
 cmds = [
-  "composer install --no-dev --optimize-autoloader",
+  "mkdir -p bootstrap/cache storage/logs storage/framework/cache/data storage/framework/sessions storage/framework/views",
+  "chmod -R 777 bootstrap/cache storage",
+  "composer install --no-dev --optimize-autoloader --no-scripts",
   "touch database/database.sqlite",
   "cp .env.example .env",
-  "php artisan key:generate"
+  "php artisan key:generate",
+  "php artisan package:discover --ansi"
 ]
 
 [start]
-cmd = "chmod -R 777 bootstrap/cache storage && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
